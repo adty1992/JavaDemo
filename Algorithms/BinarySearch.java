@@ -17,17 +17,17 @@ public class BinarySearch {
  	* @param from   起始位置 
  	* @param to     终止位置 
  	* @param target 要查找的值
- 	* @return -1：表示没找到； >-1：表示找到了，且返回值即找到的数字在data数组中的下标
+ 	* @return 要查找的值在数组中的位置，如果没找到则返回-1
  	*/  
 	private static int binarySearch1(int[] data, int from, int to, int target) {
 		if (from <= to) {
-			int mid = (from + to) / 2;//中间位置
-			if (data[mid] == target) {//找到了
-				return mid;
-			}else if (data[mid] < target) {//中间的值比目标值小，则在左半边继续查找
+			int mid = from + (to - from) / 2;//中间位置，为了防止溢出使用这种方式求中间位置
+			if (data[mid] < target) {//中间的值比目标值小，则在左半边继续查找
 				return binarySearch1(data, mid + 1, to, target);
-			}else {//中间的值比目标值大，则在右半边继续查找
+			}else if(data[mid] > target){//中间的值比目标值大，则在右半边继续查找
 				return binarySearch1(data, from, mid - 1, target);	
+			}else {//找到了，把找到的情况放在最后是因为多数情况下中间值不是大于就是小于，这样做可以节省操作
+				return mid;
 			}
 		}
 		return -1;
@@ -39,17 +39,17 @@ public class BinarySearch {
  	* @param from   起始位置 
  	* @param to     终止位置 
  	* @param target 要查找的值
- 	* @return -1：表示没找到； >-1：表示找到了，且返回值即找到的数字在data数组中的下标
+ 	* @return 要查找的值在数组中的位置，如果没找到则返回-1
  	*/  
 	private static int binarySearch2(int[] data, int from, int to, int target) {
 		while(from <= to) {
-			int mid = (from + to) / 2;
-			if (data[mid] == target) {
-				return mid;
-			}else if (data[mid] < target) {
+			int mid = from + (to - from) / 2;
+			if (data[mid] < target) {
 				from = mid + 1;				
-			}else {
+			}else if(data[mid] > target) {
 				to = mid - 1;
+			}else {//找到了，把找到的情况放在最后是因为多数情况下中间值不是大于就是小于，这样做可以节省操作
+				return mid;
 			}
 		}
 		return -1;
